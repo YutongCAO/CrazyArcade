@@ -28,6 +28,7 @@ public class GamePanel extends JPanel {
         return player;
     }
 
+    //先画炸弹附近地板，再画可通过地板，再画人以上的box，再画第一个人，再画第一个人到第二个人之间的box，再画第二个人，再画第二个人一下的box
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -35,6 +36,7 @@ public class GamePanel extends JPanel {
         drawFloor(g);
         Player p1, p2;
 
+        //判断player前后顺序
         if (player[0].getPosY() / Box.BOX_SIZE * Grille.GRILLE_WIDTH + player[0].getPosX() / Box.BOX_SIZE < player[1].getPosY() / Box.BOX_SIZE * Grille.GRILLE_WIDTH + player[1].getPosX() / Box.BOX_SIZE) {
             p1 = player[0];
             p2 = player[1];
@@ -53,6 +55,7 @@ public class GamePanel extends JPanel {
 
     }
 
+    //除地板之外其他的box
     private void drawBox(Graphics g, int debut, int fin) {
         for (int i = debut; i < fin; i++) {
             for (int j = 0; j < Grille.GRILLE_WIDTH; j++) {
@@ -62,8 +65,9 @@ public class GamePanel extends JPanel {
         }
     }
 
+    //只画可通过的，让其成为地板
     private void drawFloor(Graphics g) {
-        for (int i = 0; i < Grille.GRILLE_HEIGHT - 1; i++) {
+        for (int i = 0; i < Grille.GRILLE_HEIGHT; i++) {
             for (int j = 0; j < Grille.GRILLE_WIDTH; j++) {
                 if (grille.getGrilleBox().get(new Point(j * Box.BOX_SIZE, i * Box.BOX_SIZE)).isPassable())
                     drawLigne(g, i, j);
@@ -71,6 +75,7 @@ public class GamePanel extends JPanel {
         }
     }
 
+    //画出指定玩家
     private void drawPlayer(Graphics g, Player player) {
         ImageIcon im = player.getIm();
         int height = im.getIconHeight();
@@ -80,6 +85,7 @@ public class GamePanel extends JPanel {
         g.drawImage(im.getImage(), posImgPlayerX, posImgPlayerY, posImgPlayerX + width, posImgPlayerY + height, 0, 0, width, height, null);
     }
 
+    //在炸弹列表中找出并画炸弹
     private void drawBoomFloor(Graphics g) {
         for (Point point : grille.getGrilleBoom().keySet()) {
             Box boom = grille.getGrilleBoom().get(point);
@@ -90,6 +96,7 @@ public class GamePanel extends JPanel {
         }
     }
 
+    //在i行j列绘制图片到g
     private void drawLigne(Graphics g, int i, int j) {
         if (grille.getGrilleBox().get(new Point(j * Box.BOX_SIZE, i * Box.BOX_SIZE)).getIm() != null) {
             ImageIcon im = grille.getGrilleBox().get(new Point(j * Box.BOX_SIZE, i * Box.BOX_SIZE)).getIm();

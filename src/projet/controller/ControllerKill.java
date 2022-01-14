@@ -23,6 +23,7 @@ public class ControllerKill {
         this.player = gp.getPlayer();
     }
 
+    //判断当前point点上是否有人并且输出人的列表
     public List<Player> playerKilled() {
         List<Player> list = new ArrayList<>();
         for (Player value : player) {

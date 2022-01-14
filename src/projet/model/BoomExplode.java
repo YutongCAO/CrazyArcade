@@ -67,6 +67,7 @@ public class BoomExplode extends Box {
 
     }
 
+    //炸弹爆炸过程
     public void explode() {
         if (force == 1) {
             Box bombe = new Box(posX, posY, images[0]);
@@ -134,20 +135,29 @@ public class BoomExplode extends Box {
         }
     }
 
+    //通过判断炸弹附近格子是否可以被炸掉来选择不同的炸弹炸开图片。可通行，不可通行可被炸，其他。
     private void changePic(int i, Map<Point, Box> source, Map<Point, Box> dest, boolean remove) {
         if (i == 0) {
-            if (source.containsKey(points[i])) boxPassable(i, source, dest, remove);
+            if (source.containsKey(points[i])) {
+                boxPassable(i, source, dest, remove);
+            }
         } else if (i < 5) {
             if (source.containsKey(points[i]))
-                if (source.get(points[i + 4]).isPassable()) if (source.get(points[i]).isEliminable())
-                    boxEliminable(i, i, source, dest, remove);
-                else if (source.get(points[i]).isPassable()) boxPassable(i, source, dest, remove);
+                if (source.get(points[i + 4]).isPassable()) {
+                    if (source.get(points[i]).isEliminable())
+                        boxEliminable(i, i, source, dest, remove);
+                    else if (source.get(points[i]).isPassable()) {
+                        boxPassable(i, source, dest, remove);
+                    }
+                }
         } else if (source.containsKey(points[i]))
-            if (source.get(points[i]).isEliminable()) boxEliminable(i, i - 4, source, dest, remove);
-            else if (source.get(points[i]).isPassable()) {
+            if (source.get(points[i]).isEliminable()) {
+                boxEliminable(i, i - 4, source, dest, remove);
+            } else if (source.get(points[i]).isPassable()) {
                 dest.put(points[i], source.get(points[i]));
-                if (remove) source.remove(points[i]);
-                else if (source.containsKey(points[i - 4]))
+                if (remove) {
+                    source.remove(points[i]);
+                } else if (source.containsKey(points[i - 4]))
                     if (source.get(points[i - 4]).isEliminable() || source.get(points[i - 4]).isPassable())
                         source.put(points[i], new Box(points[i].x, points[i].y, source.get(points[i]).isPassable(), source.get(points[i]).isEliminable(), images[i]));
                     else
@@ -155,6 +165,7 @@ public class BoomExplode extends Box {
             }
     }
 
+    //把方块从source搬到dest，true拿回来，false拿走放炸弹图
     private void boxEliminable(int i, int j, Map<Point, Box> source, Map<Point, Box> dest, boolean remove) {
         if (remove) {
             dest.put(points[i], new Box(points[i].x, points[i].y, true, false, ElementLoader.imageMap.get("box" + MapLoader.floor)));
@@ -165,6 +176,7 @@ public class BoomExplode extends Box {
         }
     }
 
+    //把地板从source搬到dest，true地板拿回来，false拿走地板放炸弹图
     private void boxPassable(int i, Map<Point, Box> source, Map<Point, Box> dest, boolean remove) {
         dest.put(points[i], source.get(points[i]));
         if (remove) {

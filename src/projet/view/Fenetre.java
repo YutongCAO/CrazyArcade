@@ -6,6 +6,8 @@ import projet.util.MapLoader;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
@@ -20,6 +22,7 @@ public class Fenetre extends JFrame {
         MenuItem map2 = new MenuItem("Map 2");
         MenuItem map3 = new MenuItem("Map 3");
         Fenetre f = this;
+
         map1.addActionListener(e -> {
             try {
                 int[][] tab = MapLoader.mapLoader("data/map1.txt");

@@ -12,9 +12,11 @@ import java.util.Map;
  */
 public class Grille {
 
+    //读取地图文件定义，全局变量
     public static int GRILLE_HEIGHT;
     public static int GRILLE_WIDTH;
 
+    //grilleBoom存放的是放下炸弹之后，炸弹周围的砖块和地面。而炸弹被放进了grilleBox里
     private final Map<Point, Box> grilleBox;
     private final Map<Point, Box> grilleBoom;
     private final Player[] player;
@@ -33,7 +35,7 @@ public class Grille {
             for (int j = 0; j < GRILLE_WIDTH; j++) {
                 Box box = new Box(j * Box.BOX_SIZE, i * Box.BOX_SIZE, ElementLoader.imageMap.get("box" + tab[i][j]));
                 box.setPassable(tab[i][j] == 2 || tab[i][j] == 8);
-                box.setEliminable(tab[i][j] != 2 && tab[i][j] != 7 && tab[i][j] != 14 && tab[i][j] != 8 && tab[i][j] < 11);
+                box.setEliminable(tab[i][j] != 2 && tab[i][j] != 7 && tab[i][j] != 8 && tab[i][j] < 11);
                 this.grilleBox.put(new Point(box.getPosX(), box.getPosY()), box);
             }
         }

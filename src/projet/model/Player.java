@@ -31,9 +31,7 @@ public class Player extends Element {
         return pointVie <= 0;
     }
 
-    public int getPointVie() {
-        return pointVie;
-    }
+    public int getPointVie() { return pointVie; }
 
     public void setPointVie(int pointVie) {
         this.pointVie = pointVie;

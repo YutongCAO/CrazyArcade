@@ -258,6 +258,7 @@ public class ClavierListener implements KeyListener {
         gp.repaint();
     }
 
+    //预测走路之后位置附近的两个格子是否能通过
     private boolean isPassable(int direction, int newPosX, int newPosY) {
         if (newPosY > (Grille.GRILLE_HEIGHT - 2) * Box.BOX_SIZE)
             return false;
@@ -287,11 +288,13 @@ public class ClavierListener implements KeyListener {
             default:
                 return false;
         }
+        //判断走路前方是否有box，并且看是不是地板
         if (grilleBox.containsKey(point) && grilleBox.containsKey(point2))
             return grilleBox.get(point).isPassable() && grilleBox.get(point2).isPassable();
         return false;
     }
 
+    //放炸弹，替换炸弹和地板图片，炸弹图片变化循环，炸弹炸开
     private synchronized void bombe(int i) {
         if (nombreBoom[i] < 1) {
             nombreBoom[i]++;
@@ -301,6 +304,7 @@ public class ClavierListener implements KeyListener {
             grilleBoom.put(point, grilleBox.get(point));
             grilleBox.put(point, boom);
 
+            //延时执行。从0开始每800毫秒循环一次，总共循环两点多次。第一个循环终止，在第2000毫秒执行。在3001毫秒执行。
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
